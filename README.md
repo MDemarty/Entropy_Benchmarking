@@ -57,8 +57,4 @@ and only 2 scripts for DensMat:
 - `get_entropy_[protocol]-PLOT.py` loads the json file, then plots the corresponding entropy density evolution as a function of circuit depth and saves plots in the chosen results folder.
 
 ### Workflow for obtaining the plots from our paper
-Each script of the form `PAPER....py` corresponds to a single figure from our paper. Figures may be obtained by 
-- either moving the `results` folder (simulation and experimental data) to `C:/` or to your chosen location,
-- and editing each `PAPER....py` script appropriately to reflect the path change,
-- then running each script.
-Resulting pictures are saved in a `Paper` folder by default.
+Each script of the form `PAPER....py` corresponds to a single figure from our paper. Figures may be obtained by running each script. Resulting pictures are saved in a `Paper` folder by default.

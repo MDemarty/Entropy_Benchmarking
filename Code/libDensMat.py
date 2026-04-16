@@ -41,7 +41,7 @@ def get_metrics_DensMat_single_width (backend, circuit_params, num_qubits):
 
         if depth_index>circuit_params.depth_min:
             for index in range(circuit_params.depth_step):
-                qc = add_circuit_layer(circuit_params, num_qubits, qc, depth_index - 1 + index)
+                qc = add_circuit_layer(circuit_params, num_qubits, qc, depth_index - circuit_params.depth_step + index)
         # print("\n Quantum circuit \n", qc)
 
         density_matrix = get_output_density_matrix(qc, backend)

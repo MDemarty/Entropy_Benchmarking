@@ -33,7 +33,7 @@ for i in range(3): #i=0/1/2 corresponds to H/HSdag/Id
 # Classes ==========================================================================
 
 class CSParams(ProtocolParams):
-    def __init__(self, num_samples, num_groups, M, K, protocol_choice='randomized', artif_randomized=None):
+    def __init__(self, num_samples, num_groups, M, K, protocol_choice='randomized', artif_randomized=None, noisy_gates=False):
         self.name = 'CS'
         self.num_samples = num_samples # Number of samples for the purity/entropy estimate
         self.num_groups = num_groups #for the median of means
@@ -41,9 +41,10 @@ class CSParams(ProtocolParams):
         self.K = K # number of shots per random unitary
         self.protocol_choice = protocol_choice # 'derandomized' or 'randomized' 
         self.artif_randomized = artif_randomized # 'artif1' or 'artif2' or None
+        self.noisy_gates = noisy_gates
     @staticmethod
     def from_dict(temp):
-        return CSParams(temp['num_samples'], temp['num_groups'], temp['M'], temp['K'], temp['protocol_choice'], temp['artif_randomized'])
+        return CSParams(temp['num_samples'], temp['num_groups'], temp['M'], temp['K'], temp['protocol_choice'], temp['artif_randomized'], temp['noisy_gates'])
     
 
 # Functions To Get Measurements ====================================================
@@ -97,6 +98,10 @@ def extract_Pauli_shadows_circuit(qc, M, K, num_qubits, backend, initial_layout,
         
         qc = apply_Pauli_meas_unit(qc, num_qubits, unit_index, backend)
         if verbose: print("\n 1. Unit index: ", unit_index)
+
+        #NOTE layer of identities to model T1 noise from the measurement
+        for qubit in range(num_qubits):
+            qc.id(qubit)
         # Perform K measurements (and store outcomes/counts in a dictionary)
         counts = measure_Zbasis (qc, K, backend, initial_layout, verbose=verbose)
         shadow_list.append([unit_index, counts])

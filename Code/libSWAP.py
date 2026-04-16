@@ -12,15 +12,16 @@ from libQC import ProtocolParams, measure_Zbasis, add_native_ionq_bell_meas
 
 # Classes ==========================================================================
 class SWAPParams(ProtocolParams):
-    def __init__(self, num_samples, num_measurements, num_groups=1):
+    def __init__(self, num_samples, num_measurements, num_groups=1, noisy_gates=False):
         self.name = 'SWAP'
         self.num_samples = num_samples # Number of samples for the purity/entropy estimate
         self.num_measurements = num_measurements #10**4 (resp. 10**6) for one (resp. two) correct digits in the fractional part of the purity estimate
         self.num_groups = num_groups
         self.num_measurements_per_group = int(num_measurements/num_groups)
+        self.noisy_gates = noisy_gates
     @staticmethod
     def from_dict(temp):
-        return SWAPParams(temp['num_samples'], temp['num_measurements'], temp['num_groups'])
+        return SWAPParams(temp['num_samples'], temp['num_measurements'], temp['num_groups'], temp['noisy_gates'])
 
 # Functions To Get Measurements ====================================================
 

@@ -128,33 +128,29 @@ class NoiseParams:
     """
     Noise model, 
     for single-qubit depolarising probability p_DP1
-    and second-qubit depolarising probability p_DP2,
+    and two-qubit depolarising probability p_DP2,
     and single-qubit amplitude damping probability p_AD1,
-    and second-qubit amplitude damping probability p_AD2,
+    and two-qubit amplitude damping probability p_AD2,
+    and single-qubit amplitude damping probability p_ADmeas (T1 noise from measurement),
     and readout error probability p_meas in this form [[0.9, 0.1],[0.25,0.75]] i.e. [[P(0|0), P(1|0)],[P(0|1), P(1|1)]] 
     where P(n|m) is the probability of measuring n given that the ideal (without readout noise) outcome is m
     """
-    def __init__(self, p_DP1 = 0.008, p_DP2=0.054, p_AD1=0, p_AD2=0, p_meas=[[1, 0], [0, 1]]):
+    def __init__(self, p_DP1 = 0.008, p_DP2=0.054, p_AD1=0, p_AD2=0, p_ADmeas=0, p_meas=[[1, 0], [0, 1]]):
         self.p_DP1 = p_DP1 # 1-qubit gate
         self.p_DP2 = p_DP2 # 2-qubit gate
         self.p_AD1 = p_AD1
         self.p_AD2 = p_AD2
+        self.p_ADmeas = p_ADmeas # T1 noise from measurement #0.05
         self.p_meas = p_meas #readout error probabilities
     @staticmethod
     def from_dict(temp):
-        return NoiseParams(temp['p_DP1'], temp['p_DP2'], temp['p_AD1'], temp['p_AD2'], temp['p_meas'])
-
-# Noise model
-prob_dep_1 = 0.01 #0.01#0.01#0.01 #Google willow 10^-4=0.0001
-prob_dep_2 = 0.1 #0.1#0.1#0.1 #Google willow 10^-3=0.001
-prob_amp_damp_1 = 0
-prob_amp_damp_2 = 0
-prob_meas = [[1, 0], [0, 1]] #readout error probability
+        return NoiseParams(temp['p_DP1'], temp['p_DP2'], temp['p_AD1'], temp['p_AD2'], temp['p_ADmeas'], temp['p_meas'])
 
 class ProtocolParams:
-    def __init__(self, name, num_samples=3):
+    def __init__(self, name, num_samples=3, noisy_gates=False):
         self.name = name
         self.num_samples = num_samples # Number of samples for the purity/entropy estimate
+        self.noisy_gates = noisy_gates #True if the protocol includes noise in the measurement circuit
 
 # Functions ===================================================================
 
@@ -231,7 +227,7 @@ def apply_native_rigetti_rzz(qc, theta, q0, q1):
     apply_native_rigetti_h(qc, q1)
     return
 
-def define_gates(circuit_choice, protocol_name):
+def define_gates(circuit_choice, protocol_name, with_protocol_gates=False):
     # circuit gates
     if circuit_choice == 'HEA_RIGETTI' or circuit_choice == 'QAOA_RIGETTI':
         gates1Q_circuit = ['rx', 'ry']
@@ -240,13 +236,16 @@ def define_gates(circuit_choice, protocol_name):
         gates1Q_circuit, gates2Q_circuit = [], [] #TODO replace with IONQ native gates
         
     # protocol measurement circuit gates
-    if protocol_name == 'CS':
-        gates1Q_meas = []#['h', 'sdg'] #uncomment to add meas circ noise
-        gates2Q_meas = []
-    elif protocol_name == 'SWAP':
-        gates1Q_meas = []#['h'] #uncomment to add meas circ noise
-        gates2Q_meas = []#['cx'] #uncomment to add meas circ noise
-    elif protocol_name == 'DensMat':
+    if with_protocol_gates:
+        if protocol_name == 'CS':
+            gates1Q_meas = ['h', 'sdg']
+            gates2Q_meas = []
+        elif protocol_name == 'SWAP':
+            gates1Q_meas = ['h']
+            gates2Q_meas = ['cx']
+        elif protocol_name == 'DensMat':
+            gates1Q_meas, gates2Q_meas = [], []
+    else:
         gates1Q_meas, gates2Q_meas = [], []
     return(list(set(gates1Q_circuit+gates1Q_meas)), list(set(gates2Q_circuit+gates2Q_meas)))
 
@@ -281,11 +280,12 @@ def define_backend(backend_params, noise_params, basis_gates=None):
 def build_noise_model(noise_params, gates_1Q:list, gates_2Q:list):
     """
     returns a local depolarising + amplitude damping + readout error noise model noise_model  
-    for single-qubit depolarising probability prob_1
-    and second-qubit depolarising probability prob_2,
-    and single-qubit amplitude damping probability prob_amp_damp_1Q,
-    and second-qubit amplitude damping probability prob_amp_damp_2Q,
-    and readout error probability prob_meas in this form [[0.9, 0.1],[0.25,0.75]] i.e. [[P(0|0), P(1|0)],[P(0|1), P(1|1)]] 
+    for single-qubit depolarising probability p_DP1
+    and two-qubit depolarising probability p_DP2,
+    and single-qubit amplitude damping probability p_AD1,
+    and two-qubit amplitude damping probability p_AD2,
+    and single-qubit amplitude damping probability p_ADmeas (T1 noise from measurement),
+    and readout error probability p_meas in this form [[0.9, 0.1],[0.25,0.75]] i.e. [[P(0|0), P(1|0)],[P(0|1), P(1|1)]] 
     where P(n|m) is the probability of measuring n given that the ideal (without readout noise) outcome is m
     """
     # Errors
@@ -293,6 +293,7 @@ def build_noise_model(noise_params, gates_1Q:list, gates_2Q:list):
     error_DP2 = noise.depolarizing_error(noise_params.p_DP2, 2)
     error_AD1 = noise.amplitude_damping_error(noise_params.p_AD1)
     error_AD2 = noise.amplitude_damping_error(noise_params.p_AD2)
+    error_ADmeas = noise.amplitude_damping_error(noise_params.p_ADmeas)
     error_meas = noise.errors.readout_error.ReadoutError(noise_params.p_meas)
 
     # Add errors to noise model
@@ -301,24 +302,46 @@ def build_noise_model(noise_params, gates_1Q:list, gates_2Q:list):
     noise_model.add_all_qubit_quantum_error(error_DP2, gates_2Q)
     noise_model.add_all_qubit_quantum_error(error_AD1, gates_1Q)
     noise_model.add_all_qubit_quantum_error(error_AD2.tensor(error_AD2), gates_2Q)
+    noise_model.add_all_qubit_quantum_error(error_ADmeas, ['id'])
     noise_model.add_all_qubit_readout_error(error_meas)
+
 
     return (noise_model)
 
-def get_noise_param_from_calibration_data (f1Q, f2Q, T1, time_1Q, time_2Q):
+def compute_p_DP_from_p_AD_and_fQ(p_AD1, p_AD2, f1Q, f2Q):
+    """
+    Compute the depolarizing probabilities p_DP1 and p_DP2 from the amplitude damping probabilities p_AD1 and p_AD2
+    and the fidelities f1Q and f2Q for single-qubit and two-qubit gates.
+    """
+    # 1Q
+    y = np.sqrt(1 - p_AD1)
+    p_DP1 = ( 2 * (3*f1Q - 1) - (1 + y)**2 ) / ( y**2 - (1 + y)**2 )
+    p_DP1 = round(p_DP1, 3)
+
+    # 2Q
+    x = np.sqrt(1 - p_AD2)
+    p_DP2 = 1 - ( 4 * (5*f2Q - 1) - 1 ) / ( x * ( 4 + 6*x + 4*x**2 + x**3) )
+    p_DP2 = round(p_DP2, 3)
+
+    return p_DP1, p_DP2
+
+def get_noise_param_from_calibration_data (f1Q, f2Q, T1, time_1Q, time_2Q, fmeas):
     """
     returns the noise parameters (depolarising probabilities and amplitude damping probabilities) 
     for single-qubit and two-qubit gates from the calibration data obtained from a QPU
     """
-    # Depolarising probabilities from fidelities
-    p_DP1 = round(2*(1 - f1Q), 3)
-    p_DP2 = round((4/3)*(1 - f2Q), 3)
-
     # Amplitude damping probabilities from T1 and gate times
     p_AD1 = round(1 - np.exp(-time_1Q/T1), 3)
     p_AD2 = round(1 - np.exp(-time_2Q/T1), 3)
-    
-    noise_params = NoiseParams(p_DP1, p_DP2, p_AD1, p_AD2, p_meas=[[1, 0], [0, 1]])
+
+
+    # Depolarising probabilities from fidelities
+    p_DP1, p_DP2 = compute_p_DP_from_p_AD_and_fQ(p_AD1, p_AD2, f1Q, f2Q)
+
+    # Readout error probabilities
+    p_meas = [[fmeas, round(1-fmeas, 3)], [round(1-fmeas, 3), fmeas]]
+
+    noise_params = NoiseParams(p_DP1, p_DP2, p_AD1, p_AD2, 0, p_meas)
     return noise_params
 
 # Quantum circuits

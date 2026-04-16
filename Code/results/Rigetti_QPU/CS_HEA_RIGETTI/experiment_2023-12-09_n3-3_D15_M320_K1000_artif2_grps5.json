@@ -13,7 +13,8 @@
         "M": 320,
         "K": 1000,
         "protocol_choice": "derandomized",
-        "artif_randomized": "artif2"
+        "artif_randomized": "artif2",
+	"noisy_gates": true
     },
     "circuit_params": {
         "choice": "HEA_RIGETTI",
@@ -152,8 +153,8 @@
         }
     },
     "csv_files": {
-        "3": "C:/results/Rigetti_QPU/CS_HEA_RIGETTI/3Q/Data/derand/D30_M27_K1000_2023-12-09.csv"
+        "3": "results/Rigetti_QPU/CS_HEA_RIGETTI/3Q/Data/derand/D30_M27_K1000_2023-12-09.csv"
     },
-    "metrics_file": "C:/results/Rigetti_QPU/CS_HEA_RIGETTI/metrics/n3-3_D0-15-1_M320_K1000_grps5_spls3_artif2_2023-12-09.json",
+    "metrics_file": "results/Rigetti_QPU/CS_HEA_RIGETTI/metrics/n3-3_D0-15-1_M320_K1000_grps5_spls3_artif2_2023-12-09.json",
     "metrics_estimation_file": ""
 }

@@ -10,6 +10,7 @@
         "p_DP2": 0.054,
         "p_AD1": 0,
         "p_AD2": 0,
+	"p_ADmeas": 0,
         "p_meas": [
             [
                 1,
@@ -26,7 +27,8 @@
         "num_samples": 3,
         "num_measurements": 307200,
         "num_groups": 3,
-        "num_measurements_per_group": 102400
+        "num_measurements_per_group": 102400,
+	"noisy_gates": false
     },
     "circuit_params": {
         "choice": "HEA_RIGETTI",
@@ -225,8 +227,8 @@
         }
     },
     "csv_files": {
-        "5": "C:/results/Aer_sim/SWAP_HEA_RIGETTI/5Q/Data/D15_meas307200_grps3_DP0.008-0.054_AD0-0_meas0-0_without.csv"
+        "5": "results/Aer_sim/SWAP_HEA_RIGETTI/5Q/Data/D15_meas307200_grps3_DP0.008-0.054_AD0-0_meas0-0_without.csv"
     },
-    "metrics_file": "C:/results/Aer_sim/SWAP_HEA_RIGETTI/metrics/n5-5_D0-15-1_meas307200_grps3_spls3_DP0.008-0.054_AD0-0_meas0-0_without.json",
+    "metrics_file": "results/Aer_sim/SWAP_HEA_RIGETTI/metrics/n5-5_D0-15-1_meas307200_grps3_spls3_DP0.008-0.054_AD0-0_meas0-0_without.json",
     "metrics_estimation_file": ""
 }

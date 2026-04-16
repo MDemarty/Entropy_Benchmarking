@@ -10,6 +10,7 @@
         "p_DP2": 0.054,
         "p_AD1": 0,
         "p_AD2": 0,
+	"p_ADmeas": 0,
         "p_meas": [
             [
                 1,
@@ -3028,6 +3029,6 @@
         }
     },
     "csv_files": {},
-    "metrics_file": "C:/results/Aer_sim/DensMat_HEA_RIGETTI/metrics/n2-10_D0-15-1_DP0.008-0.054_AD0-0.json",
+    "metrics_file": "results/Aer_sim/DensMat_HEA_RIGETTI/metrics/n2-10_D0-15-1_DP0.008-0.054_AD0-0.json",
     "metrics_estimation_file": ""
 }

@@ -20,11 +20,11 @@ from libExperiment import ExperimentParams
 def build_parser (description):
     parser = argparse.ArgumentParser(description=description)
     parser.add_argument("-v", "--verbose", action="store_true", help="Enables verbose mode")
-    parser.add_argument("-i1", "--input1", type=str, required=False, default='C:/results/Aer_sim/CS_HEA_RIGETTI/experiment_2025-04-06_n3-3_D15_M320_K1000_grp5_meas0-0rand_wo.json', help="Json file for HEA_RIGETTI - CS - without measurement error (detector+circ)")
-    parser.add_argument("-i2", "--input2", type=str, required=False, default='C:/results/Aer_sim/CS_HEA_RIGETTI/experiment_2025-04-09_n3-3_D15_M320_K1000_grps5_meas0.022-0.035rand_w.json', help="Json file for HEA_RIGETTI - CS - with measurement error (detector+circ)")
-    parser.add_argument("-i3", "--input3", type=str, required=False, default='C:/results/Rigetti_QPU/CS_HEA_RIGETTI/experiment_2023-12-09_n3-3_D15_M320_K1000_artif1_grps5.json', help="Json file for Rigetti_QPU - HEA_RIGETTI - CS artif1")
-    parser.add_argument("-i4", "--input4", type=str, required=False, default='C:/results/Rigetti_QPU/CS_HEA_RIGETTI/experiment_2023-12-09_n3-3_D15_M320_K1000_artif2_grps5.json', help="Json file for Rigetti_QPU - HEA_RIGETTI - CS artif2")
-    parser.add_argument("-i5", "--input5", type=str, required=False, default='C:/results/Aer_sim/DensMat_HEA_RIGETTI/experiment_2025-03-18_n3-3_D15.json', help="Json file for DensMat")
+    parser.add_argument("-i1", "--input1", type=str, required=False, default='results/Aer_sim/CS_HEA_RIGETTI/experiment_2025-04-06_n3-3_D15_M320_K1000_grp5_meas0-0rand_wo.json', help="Json file for HEA_RIGETTI - CS - without measurement error (detector+circ)")
+    parser.add_argument("-i2", "--input2", type=str, required=False, default='results/Aer_sim/CS_HEA_RIGETTI/experiment_2025-04-09_n3-3_D15_M320_K1000_grps5_meas0.022-0.035rand_w.json', help="Json file for HEA_RIGETTI - CS - with measurement error (detector+circ)")
+    parser.add_argument("-i3", "--input3", type=str, required=False, default='results/Rigetti_QPU/CS_HEA_RIGETTI/experiment_2023-12-09_n3-3_D15_M320_K1000_artif1_grps5.json', help="Json file for Rigetti_QPU - HEA_RIGETTI - CS artif1")
+    parser.add_argument("-i4", "--input4", type=str, required=False, default='results/Rigetti_QPU/CS_HEA_RIGETTI/experiment_2023-12-09_n3-3_D15_M320_K1000_artif2_grps5.json', help="Json file for Rigetti_QPU - HEA_RIGETTI - CS artif2")
+    parser.add_argument("-i5", "--input5", type=str, required=False, default='results/Aer_sim/DensMat_HEA_RIGETTI/experiment_2025-03-18_n3-3_D15.json', help="Json file for DensMat")
     parser.add_argument("-o", "--output", type=str, required=False, default='Paper/Experimental_plot', help="Folder where to store the results")
 
     return parser

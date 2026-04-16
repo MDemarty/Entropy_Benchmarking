@@ -19,10 +19,10 @@ from libExperiment import ExperimentParams
 def build_parser (description):
     parser = argparse.ArgumentParser(description=description)
     parser.add_argument("-v", "--verbose", action="store_true", help="Enables verbose mode")
-    parser.add_argument("-i1", "--input1", type=str, required=False, default='C:/results/Aer_sim/CS_HEA_RIGETTI/experiment_2025-03-20_n3-3_D15_meas0-0derand.json', help="Json file for HEA_RIGETTI - CS - without measurement error")
-    parser.add_argument("-i2", "--input2", type=str, required=False, default='C:/results/Aer_sim/CS_HEA_RIGETTI/experiment_2025-03-20_n3-3_D15_meas0.022-0.035derand.json', help="Json file for HEA_RIGETTI - CS - with measurement error")
-    parser.add_argument("-i3", "--input3", type=str, required=False, default='C:/results/Rigetti_QPU/CS_HEA_RIGETTI/experiment_2023-12-09_n3-3_D15_derand.json', help="Json file for Rigetti_QPU")
-    parser.add_argument("-i4", "--input4", type=str, required=False, default='C:/results/Aer_sim/DensMat_HEA_RIGETTI/experiment_2025-03-18_n3-3_D15.json', help="Json file for DensMat")
+    parser.add_argument("-i1", "--input1", type=str, required=False, default='results/Aer_sim/CS_HEA_RIGETTI/experiment_2025-03-20_n3-3_D15_meas0-0derand.json', help="Json file for HEA_RIGETTI - CS - without measurement error")
+    parser.add_argument("-i2", "--input2", type=str, required=False, default='results/Aer_sim/CS_HEA_RIGETTI/experiment_2025-03-20_n3-3_D15_meas0.022-0.035derand.json', help="Json file for HEA_RIGETTI - CS - with measurement error")
+    parser.add_argument("-i3", "--input3", type=str, required=False, default='results/Rigetti_QPU/CS_HEA_RIGETTI/experiment_2023-12-09_n3-3_D15_derand.json', help="Json file for Rigetti_QPU")
+    parser.add_argument("-i4", "--input4", type=str, required=False, default='results/Aer_sim/DensMat_HEA_RIGETTI/experiment_2025-03-18_n3-3_D15.json', help="Json file for DensMat")
     parser.add_argument("-o", "--output", type=str, required=False, default='Paper/Experimental_plot', help="Folder where to store the results")
 
     return parser

@@ -23,7 +23,7 @@ from scipy.optimize import curve_fit
 def build_parser (description):
     parser = argparse.ArgumentParser(description=description)
     parser.add_argument("-v", "--verbose", action="store_true", help="Enables verbose mode")
-    parser.add_argument("-i", "--input", type=str, required=False, default='C:/results/Aer_sim/DensMat_HEA_RIGETTI/experiment_2025-03-17_n2-10_D15.json', help="Json file with parameters from experiment")
+    parser.add_argument("-i", "--input", type=str, required=False, default='results/Aer_sim/DensMat_HEA_RIGETTI/experiment_2025-03-17_n2-10_D15.json', help="Json file with parameters from experiment")
     parser.add_argument("-o", "--output", type=str, required=False, default='Paper/DensMat_Fit_plot', help="Folder where to store the results")
 
     return parser

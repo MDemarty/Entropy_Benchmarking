@@ -10,6 +10,7 @@
         "p_DP2": 0.054,
         "p_AD1": 0,
         "p_AD2": 0,
+	"p_ADmeas": 0,
         "p_meas": [
             [
                 0.978,
@@ -28,7 +29,8 @@
         "M": 27,
         "K": 1000,
         "protocol_choice": "derandomized",
-        "artif_randomized": null
+        "artif_randomized": null,
+	"noisy_gates": true
     },
     "circuit_params": {
         "choice": "HEA_RIGETTI",
@@ -167,8 +169,8 @@
         }
     },
     "csv_files": {
-        "3": "C:/results/Aer_sim/CS_HEA_RIGETTI/3Q/Data/derand/D15_M27_K1000_DP0.008-0.054_AD0-0_meas0.022-0.035.csv"
+        "3": "results/Aer_sim/CS_HEA_RIGETTI/3Q/Data/derand/D15_M27_K1000_DP0.008-0.054_AD0-0_meas0.022-0.035.csv"
     },
-    "metrics_file": "C:/results/Aer_sim/CS_HEA_RIGETTI/metrics/n3-3_D0-15-1_M27_K1000_grps1_spls3_derand_DP0.008-0.054_AD0-0_meas0.022-0.035.json",
+    "metrics_file": "results/Aer_sim/CS_HEA_RIGETTI/metrics/n3-3_D0-15-1_M27_K1000_grps1_spls3_derand_DP0.008-0.054_AD0-0_meas0.022-0.035.json",
     "metrics_estimation_file": ""
 }

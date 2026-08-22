@@ -7,7 +7,7 @@ Classical simulation of the Renyi-2 entropy density evolution of a 3-qubit hardw
 ![Hardware-efficient circuit under local depolarising noise using Shadows](https://github.com/MDemarty/Entropy_Benchmarking/blob/main/readme_figures/R2d-D0-15-1_M320_K1000_grps5_spls3_random_DP0.008-0.054_AD0-0_meas0-0.png)
 
 ## Corresponding article
-This is the code used in relation to the article [Entropy Density Benchmarking of Near-Term Quantum Circuits](https://doi.org/10.48550/arXiv.2412.18007) by <ins>Marine Demarty</ins>, James Mills, Kenza Hammam and Raul Garcia-Patron.
+This is the code used in relation to the article [Entropy Density Benchmarking of Near-Term Quantum Circuits](https://doi.org/10.1103/swvt-3pkh) by <ins>Marine Demarty</ins>, James Mills, Kenza Hammam and Raul Garcia-Patron.
 
 ## About
 This repository provides some basic toolkit for analysing the accumulation of *Renyi-2 entropy density* in a noisy quantum circuit as a function of circuit *depth* (number of layers of gates) and *system size* (number of qubits). 
